@@ -109,3 +109,102 @@ var headers = req.headers;
 var userAgent = headers['user-agent'];
 ```
 
+`Node` 使用 `stream` 来处理 `HTTP` 的请求体，它注册了 `data` 和 `end` 两个事件
+
+```js
+var body = [];
+request.on('data', function(chunk) {
+  body.push(chunk);
+}).on('end', function() {
+  body = Buffer.concat(body).toString();
+})
+```
+
+## Response对象
+
+设置状态码 `statusCode` ，在 `Node` 并非必须，如果没有设置则默认都是200，但这不能代表所有的情况，所以，最佳实践就是手动设置状态码。
+
+我们通过 `setHeader` 方法来设置 `response` 的头部信息
+
+```js
+response.setHeader('Content-Type': 'application/json');
+response.setHeader('X-Powered-By', 'bacon');
+```
+
+`setHeader` 一次只能设置单个属性，如果想设置多个，可以使用 `writeHead` 方法。
+
+```js
+response.writeHead(200, {
+  'Content-Length': Buffer.byteLength(body),
+  'Content-Type': 'text/plain'
+})
+```
+
+`response` 对象时一个 `writableStream` 实例，可以直接使用 `write` 方法写入，写入完成后再调用 `end` 方法发送到客户端
+
+```js
+response.write('<html>');
+response.write('<body>');
+response.write('<h1>Hello, World!</h1>');
+response.write('</body>');
+response.write('</html>');
+response.end();
+```
+
+但这样写太麻烦，我们可以直接将返回的内容作为参数写到 `end` 方法中
+
+```js
+response.end('<html><body><h1>Hello, World!</h1></body></html>');
+```
+
+`response.end` 方法在每个 `HTTP` 请求的最后都会被调用。当客户端请求完成后，我们应该调用该方法来结束 `HTTP` 请求。
+
+`end` 方法支持一个字符串或 `buffer` 作为参数，以指定请求最后返回的数据，如果定义了回调方法，那么会在 `end` 返回后调用。
+
+```js
+res.end('Hello Node', function() {
+  console.log('http cycle end');
+})
+```
+
+## 数据上传
+
+在传统的Web开发中，最常用的HTTP请求只有 `get` 和 `post` 两种，`get` 请求的报文简单，只有请求行和请求头，`post` 还有请求体。
+
+对于 `Node` 而言，可以通过 `req.method` 属性来判断请求方法的类型。
+
+```js
+var http = require('http');
+var server = http.createServer(function(req, res) {
+  if (req.method === 'get') {
+    // todo..
+  }
+
+  if (req.method === 'post') {
+    // todo...
+  }
+})
+```
+
+## HTTP客户端服务
+
+HTTP模块除了能在服务端处理请求之外，还可以作为客户端向其他服务器发起请求。
+
+```js
+var http = require('http');
+http.get('https://blockchain.info/ticker', function(res) {
+  var statusCode = res.statusCode;
+  if (statusCode === 200) {
+    var result = '';
+    res.on('data', function(data) {
+      result += data;
+    })
+    res.on('end', function() {
+      console.log(result.toString());
+    })
+    res.on('error', function() {
+      console.log(e.message);
+    })
+  }
+})
+```
