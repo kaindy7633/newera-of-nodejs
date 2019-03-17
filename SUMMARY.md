@@ -5,7 +5,6 @@
   * [Node是什么](Chapter1/Node是什么.md)
   * [Node的内部机制](Chapter1/Node的内部机制.md)
   * [事件循环(Event Loop)](Chapter1/事件循环.md)
-  * [总结](Chapter1/总结.md)
 * 常用模块
   * [Module](Chapter2/Module.md)
   * [Buffer](Chapter2/Buffer.md)
