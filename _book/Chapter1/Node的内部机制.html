@@ -1,0 +1,847 @@
+
+<!DOCTYPE HTML>
+<html lang="" >
+    <head>
+        <meta charset="UTF-8">
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <title>Node的内部机制 · GitBook</title>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 3.2.3">
+        
+        
+        
+    
+    <link rel="stylesheet" href="../gitbook/style.css">
+
+    
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-highlight/website.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-search/search.css">
+                
+            
+                
+                <link rel="stylesheet" href="../gitbook/gitbook-plugin-fontsettings/website.css">
+                
+            
+        
+
+    
+
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+        
+    
+
+        
+    
+    
+    <meta name="HandheldFriendly" content="true"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+    <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+
+    
+    <link rel="next" href="事件循环.html" />
+    
+    
+    <link rel="prev" href="Node是什么.html" />
+    
+
+    </head>
+    <body>
+        
+<div class="book">
+    <div class="book-summary">
+        
+            
+<div id="book-search-input" role="search">
+    <input type="text" placeholder="Type to search" />
+</div>
+
+            
+                <nav role="navigation">
+                
+
+
+<ul class="summary">
+    
+    
+
+    
+
+    
+        
+        
+    
+        <li class="chapter " data-level="1.1" data-path="../">
+            
+                <a href="../">
+            
+                    
+                    前言
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2" >
+            
+                <span>
+            
+                    
+                    Node基础知识
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.2.1" data-path="Node是什么.html">
+            
+                <a href="Node是什么.html">
+            
+                    
+                    Node是什么
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter active" data-level="1.2.2" data-path="Node的内部机制.html">
+            
+                <a href="Node的内部机制.html">
+            
+                    
+                    Node的内部机制
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.2.3" data-path="事件循环.html">
+            
+                <a href="事件循环.html">
+            
+                    
+                    事件循环(Event Loop)
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3" >
+            
+                <span>
+            
+                    
+                    常用模块
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.3.1" data-path="../Chapter2/Module.html">
+            
+                <a href="../Chapter2/Module.html">
+            
+                    
+                    Module
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.2" data-path="../Chapter2/Buffer.html">
+            
+                <a href="../Chapter2/Buffer.html">
+            
+                    
+                    Buffer
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.3" data-path="../Chapter2/FileSystem.html">
+            
+                <a href="../Chapter2/FileSystem.html">
+            
+                    
+                    File System
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.4" data-path="../Chapter2/HTTP.html">
+            
+                <a href="../Chapter2/HTTP.html">
+            
+                    
+                    HTTP
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.5" data-path="../Chapter2/TCP.html">
+            
+                <a href="../Chapter2/TCP.html">
+            
+                    
+                    TCP
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.6" data-path="../Chapter2/安全传输SSL.html">
+            
+                <a href="../Chapter2/安全传输SSL.html">
+            
+                    
+                    安全传输SSL
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.7" data-path="../Chapter2/WebSocket.html">
+            
+                <a href="../Chapter2/WebSocket.html">
+            
+                    
+                    WebSocket
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.8" data-path="../Chapter2/Stream.html">
+            
+                <a href="../Chapter2/Stream.html">
+            
+                    
+                    Stream
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.9" data-path="../Chapter2/Events.html">
+            
+                <a href="../Chapter2/Events.html">
+            
+                    
+                    Events
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.10" data-path="../Chapter2/多进程服务.html">
+            
+                <a href="../Chapter2/多进程服务.html">
+            
+                    
+                    多进程服务
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.11" data-path="../Chapter2/Process对象.html">
+            
+                <a href="../Chapter2/Process对象.html">
+            
+                    
+                    Process对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.3.12" data-path="../Chapter2/Timer.html">
+            
+                <a href="../Chapter2/Timer.html">
+            
+                    
+                    Timer
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4" >
+            
+                <span>
+            
+                    
+                    ES6与Node
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.4.1" data-path="../Chapter3/ECMAScript6.html">
+            
+                <a href="../Chapter3/ECMAScript6.html">
+            
+                    
+                    ECMAScript6
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.2" data-path="../Chapter3/块级作用域.html">
+            
+                <a href="../Chapter3/块级作用域.html">
+            
+                    
+                    块级作用域
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.3" data-path="../Chapter3/数组.html">
+            
+                <a href="../Chapter3/数组.html">
+            
+                    
+                    数组
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.4" data-path="../Chapter3/函数.html">
+            
+                <a href="../Chapter3/函数.html">
+            
+                    
+                    函数
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.5" data-path="../Chapter3/Set和Map.html">
+            
+                <a href="../Chapter3/Set和Map.html">
+            
+                    
+                    Set和Map
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.6" data-path="../Chapter3/Iterator.html">
+            
+                <a href="../Chapter3/Iterator.html">
+            
+                    
+                    Iterator
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.7" data-path="../Chapter3/对象.html">
+            
+                <a href="../Chapter3/对象.html">
+            
+                    
+                    对象
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.8" data-path="../Chapter3/类.html">
+            
+                <a href="../Chapter3/类.html">
+            
+                    
+                    类
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.4.9" data-path="../Chapter3/类的继承.html">
+            
+                <a href="../Chapter3/类的继承.html">
+            
+                    
+                    类的继承
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5" >
+            
+                <span>
+            
+                    
+                    异步
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.5.1" data-path="../Chapter4/异步操作的返回值.html">
+            
+                <a href="../Chapter4/异步操作的返回值.html">
+            
+                    
+                    异步操作的返回值
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.2" data-path="../Chapter4/组织回调方法.html">
+            
+                <a href="../Chapter4/组织回调方法.html">
+            
+                    
+                    组织回调方法
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.3" data-path="../Chapter4/使用Promise.html">
+            
+                <a href="../Chapter4/使用Promise.html">
+            
+                    
+                    使用Promise
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.4" data-path="../Chapter4/过渡方案Generator.html">
+            
+                <a href="../Chapter4/过渡方案Generator.html">
+            
+                    
+                    过渡方案Generator
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.5.5" data-path="../Chapter4/回调终点-async&await.html">
+            
+                <a href="../Chapter4/回调终点-async&await.html">
+            
+                    
+                    回调终点-async/await
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6" >
+            
+                <span>
+            
+                    
+                    Koa
+            
+                </span>
+            
+
+            
+            <ul class="articles">
+                
+    
+        <li class="chapter " data-level="1.6.1" data-path="../Chapter5/NodeWeb发展历程.html">
+            
+                <a href="../Chapter5/NodeWeb发展历程.html">
+            
+                    
+                    NodeWeb发展历程
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.2" data-path="../Chapter5/内容规划.html">
+            
+                <a href="../Chapter5/内容规划.html">
+            
+                    
+                    内容规划
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.3" data-path="../Chapter5/Koa入门.html">
+            
+                <a href="../Chapter5/Koa入门.html">
+            
+                    
+                    Koa入门
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.4" data-path="../Chapter5/Middleware.html">
+            
+                <a href="../Chapter5/Middleware.html">
+            
+                    
+                    Middleware
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.5" data-path="../Chapter5/常用服务实现.html">
+            
+                <a href="../Chapter5/常用服务实现.html">
+            
+                    
+                    常用服务实现
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.6" data-path="../Chapter5/健壮的Web应用.html">
+            
+                <a href="../Chapter5/健壮的Web应用.html">
+            
+                    
+                    健壮的Web应用
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.7" data-path="../Chapter5/使用Redis实现持久化.html">
+            
+                <a href="../Chapter5/使用Redis实现持久化.html">
+            
+                    
+                    使用Redis实现持久化
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.8" data-path="../Chapter5/Koa源码剖析.html">
+            
+                <a href="../Chapter5/Koa源码剖析.html">
+            
+                    
+                    Koa源码剖析
+            
+                </a>
+            
+
+            
+        </li>
+    
+        <li class="chapter " data-level="1.6.9" data-path="../Chapter5/网站部署.html">
+            
+                <a href="../Chapter5/网站部署.html">
+            
+                    
+                    网站部署
+            
+                </a>
+            
+
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+    
+
+    <li class="divider"></li>
+
+    <li>
+        <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
+            Published with GitBook
+        </a>
+    </li>
+</ul>
+
+
+                </nav>
+            
+        
+    </div>
+
+    <div class="book-body">
+        
+            <div class="body-inner">
+                
+                    
+
+<div class="book-header" role="navigation">
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href=".." >Node的内部机制</a>
+    </h1>
+</div>
+
+
+
+
+                    <div class="page-wrapper" tabindex="-1" role="main">
+                        <div class="page-inner">
+                            
+<div id="book-search-results">
+    <div class="search-noresults">
+    
+                                <section class="normal markdown-section">
+                                
+                                <h1 id="node&#x7684;&#x5185;&#x90E8;&#x673A;&#x5236;">Node&#x7684;&#x5185;&#x90E8;&#x673A;&#x5236;</h1>
+<p>&#x7A0B;&#x5E8F;&#x7531;CPU&#x6267;&#x884C;&#xFF0C;&#x800C;&#x5728;&#x5B8C;&#x6210;&#x4EFB;&#x52A1;&#x4E4B;&#x524D;&#xFF0C;CPU&#x4E0D;&#x4F1A;&#x6682;&#x505C;&#x6216;&#x505C;&#x6B62;&#xFF0C;&#x5B83;&#x7684;&#x8FD0;&#x884C;&#x548C;&#x540C;&#x6B65;&#x3001;&#x5F02;&#x6B65;&#x6216;&#x8005;&#x963B;&#x585E;&#x3001;&#x975E;&#x79DF;&#x585E;&#x6CA1;&#x6709;&#x5FC5;&#x7136;&#x7684;&#x8054;&#x7CFB;&#x3002;&#x64CD;&#x4F5C;&#x7CFB;&#x7EDF;&#x4FDD;&#x8BC1;CPU&#x59CB;&#x7EC8;&#x5904;&#x4E8E;&#x8FD0;&#x884C;&#x72B6;&#x6001;&#xFF0C;&#x662F;&#x901A;&#x8FC7;&#x8C03;&#x5EA6;&#x6765;&#x5B9E;&#x73B0;&#x7684;&#xFF0C;&#x5177;&#x4F53;&#x4E00;&#x70B9;&#x5C31;&#x662F;&#x5728;&#x4E0D;&#x540C;&#x7684;&#x8FDB;&#x7A0B;/&#x7EBF;&#x7A0B;&#x95F4;&#x6765;&#x56DE;&#x5207;&#x6362;&#x3002;</p>
+<h2 id="&#x56DE;&#x8C03;">&#x56DE;&#x8C03;</h2>
+<p>&#x56DE;&#x8C03;&#x5C31;&#x662F;&#x901A;&#x8FC7;&#x51FD;&#x6570;&#x53C2;&#x6570;&#x7684;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x5230;&#x5176;&#x4ED6;&#x4EE3;&#x7801;&#x7684;&#xFF0C;&#x67D0;&#x6BB5;&#x53EF;&#x6267;&#x884C;&#x4EE3;&#x7801;&#x7684;&#x5F15;&#x7528;&#x3002;&#x901A;&#x4FD7;&#x7684;&#x8BB2;&#xFF0C;&#x5C31;&#x662F;&#x5C06;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x4F20;&#x9012;&#x7ED9;&#x53E6;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#xFF0C;&#x5E76;&#x4E14;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x7684;&#x51FD;&#x6570;&#x53EF;&#x88AB;&#x6267;&#x884C;&#xFF0C;&#x5B83;&#x672C;&#x8D28;&#x4E0A;&#x662F;&#x4E00;&#x4E2A;&#x9AD8;&#x9636;&#x51FD;&#x6570;&#x3002;</p>
+<blockquote>
+<p>&#x9AD8;&#x9636;&#x51FD;&#x6570;&#x7684;&#x6982;&#x5FF5;&#xFF1A;&#x63A5;&#x53D7;&#x4E00;&#x4E2A;&#x6216;&#x591A;&#x4E2A;&#x51FD;&#x6570;&#x4F5C;&#x4E3A;&#x53C2;&#x6570;&#x8F93;&#x5165;&#xFF0C;&#x4E14;&#x4F1A;&#x8F93;&#x51FA;&#x4E00;&#x4E2A;&#x51FD;&#x6570;&#x3002;</p>
+</blockquote>
+<p>&#x5355;&#x7EBF;&#x7A0B;&#x7684;&#x7A0B;&#x5E8F;&#x5728;&#x8FD0;&#x884C;&#x65F6;&#x9700;&#x8981;&#x8003;&#x8651;&#x8FD9;&#x6837;&#x7684;&#x95EE;&#x9898;&#xFF1A;&#x5982;&#x679C;&#x9047;&#x5230;&#x4E00;&#x4E2A;&#x8017;&#x65F6;&#x64CD;&#x4F5C;&#xFF0C;&#x8981;&#x4E0D;&#x8981;&#x7B49;&#x5F85;&#x64CD;&#x4F5C;&#x5B8C;&#x6210;&#x540E;&#x518D;&#x8FDB;&#x884C;&#x4E0B;&#x4E00;&#x6B65;?</p>
+<p><code>Node</code> &#x6CA1;&#x6709;&#x9009;&#x62E9;&#x8FD9;&#x6837;&#x65B9;&#x5F0F;&#xFF0C;&#x800C;&#x662F;&#x901A;&#x8FC7;&#x5F02;&#x6B65;+&#x56DE;&#x8C03;&#x7684;&#x65B9;&#x5F0F;&#x8FDB;&#x884C;&#x5904;&#x7406;&#x3002;&#x5F53; <code>Node</code> &#x9047;&#x5230;&#x8017;&#x65F6;&#x64CD;&#x4F5C;&#xFF0C;&#x6BD4;&#x5982;IO&#x64CD;&#x4F5C;&#x65F6;&#xFF0C;&#x4F1A;&#x53D1;&#x8D77;&#x4E00;&#x4E2A;&#x8C03;&#x7528;&#x540E;&#x7EE7;&#x7EED;&#x5411;&#x4E0B;&#x6267;&#x884C;&#xFF0C;&#x5F53;IO&#x64CD;&#x4F5C;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x518D;&#x6267;&#x884C;&#x5BF9;&#x5E94;&#x7684;&#x56DE;&#x8C03;&#x51FD;&#x6570;(&#x5F02;&#x6B65;).</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> fs = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;fs&apos;</span>);
+<span class="hljs-keyword">var</span> callback = <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">err, data</span>) </span>{
+  <span class="hljs-keyword">if</span> (err) <span class="hljs-keyword">return</span>;
+  <span class="hljs-built_in">console</span>.log(data.toString());
+}
+fs.readFile(<span class="hljs-string">&apos;foo.txt&apos;</span>, callback);
+</code></pre>
+<h2 id="&#x540C;&#x6B65;&#x5F02;&#x6B65;&#x548C;&#x963B;&#x585E;&#x975E;&#x963B;&#x585E;">&#x540C;&#x6B65;/&#x5F02;&#x6B65;&#x548C;&#x963B;&#x585E;/&#x975E;&#x963B;&#x585E;</h2>
+<p>&#x540C;&#x6B65;/&#x5F02;&#x6B65;&#x63CF;&#x8FF0;&#x7684;&#x662F;&#x8FDB;&#x7A0B;/&#x7EBF;&#x7A0B;&#x7684;&#x8C03;&#x7528;&#x65B9;&#x5F0F;&#x3002;</p>
+<p>&#x540C;&#x6B65;&#x6307;&#x7684;&#x662F;&#x8FDB;&#x7A0B;/&#x7EBF;&#x7A0B;&#x53D1;&#x8D77;&#x8C03;&#x7528;&#x540E;&#xFF0C;&#x4F1A;&#x4E00;&#x76F4;&#x7B49;&#x5F85;&#x8C03;&#x7528;&#x8FD4;&#x56DE;&#x540E;&#x624D;&#x7EE7;&#x7EED;&#x5F80;&#x4E0B;&#x6267;&#x884C;&#xFF0C;&#x8FD9;&#x6BB5;&#x65F6;&#x95F4;&#xFF0C;CPU&#x4F1A;&#x901A;&#x8FC7;&#x7CFB;&#x7EDF;&#x8C03;&#x5EA6;&#x53BB;&#x53E6;&#x5916;&#x7684;&#x8FDB;&#x7A0B;/&#x7EBF;&#x7A0B;&#x6267;&#x884C;&#x4EFB;&#x52A1;&#xFF0C;&#x800C;&#x540E;&#x518D;&#x56DE;&#x5230;&#x73B0;&#x6709;&#x7684;&#x8FDB;&#x7A0B;/&#x7EBF;&#x7A0B;&#x4E0A;&#x6765;&#x3002;</p>
+<p>&#x800C;&#x5F02;&#x6B65;&#x5219;&#x662F;&#x8FDB;&#x7A0B;/&#x7EBF;&#x7A0B;&#x53D1;&#x8D77;&#x8C03;&#x7528;&#x540E;&#xFF0C;&#x4E0D;&#x7B49;&#x5F85;&#x7EE7;&#x7EED;&#x5F80;&#x4E0B;&#x6267;&#x884C;&#xFF0C;&#x5F53;&#x8C03;&#x7528;&#x5B8C;&#x6210;&#x540E;&#xFF0C;&#x83B7;&#x53D6;&#x901A;&#x77E5;&#x518D;&#x56DE;&#x8FC7;&#x5934;&#x6765;&#x6267;&#x884C;&#x3002;</p>
+<p>&#x963B;&#x585E;&#x548C;&#x975E;&#x963B;&#x585E;&#x662F;&#x9488;&#x5BF9;IO&#x800C;&#x8A00;&#x7684;&#xFF0C;&#x5B83;&#x5173;&#x6CE8;&#x7A0B;&#x5E8F;&#x5728;&#x7B49;&#x5F85;IO&#x8C03;&#x7528;&#x8FD4;&#x56DE;&#x8FD9;&#x6BB5;&#x65F6;&#x95F4;&#x7684;&#x72B6;&#x6001;&#x3002;</p>
+<h2 id="&#x5355;&#x7EBF;&#x7A0B;&#x548C;&#x591A;&#x7EBF;&#x7A0B;">&#x5355;&#x7EBF;&#x7A0B;&#x548C;&#x591A;&#x7EBF;&#x7A0B;</h2>
+<p><code>Java</code>&#x3001;<code>C++</code>&#x7B49;&#x9AD8;&#x7EA7;&#x8BED;&#x8A00;&#x90FD;&#x6709;&#x591A;&#x7EBF;&#x7A0B;&#x7684;&#x8BED;&#x8A00;&#x7279;&#x6027;&#xFF0C;&#x800C; <code>Node</code> &#x6CA1;&#x6709;&#x63D0;&#x4F9B;&#x591A;&#x7EBF;&#x7A0B;&#x652F;&#x6301;&#xFF0C;&#x6211;&#x4EEC;&#x7684;&#x4EE3;&#x7801;&#x53EA;&#x80FD;&#x5728;&#x5355;&#x7EBF;&#x7A0B;&#x4E2D;&#x8FD0;&#x884C;&#x3002;</p>
+<p>&#x800C; <code>Node</code> &#x7684;&#x5E95;&#x5C42;&#x5E76;&#x975E;&#x662F;&#x5355;&#x7EBF;&#x7A0B;&#x7684;&#x3002;<code>Libuv</code> &#x662F; <code>Node</code> &#x7684;&#x5E95;&#x5C42;&#x5B9E;&#x73B0;&#xFF0C;&#x5B83;&#x5C31;&#x6709;&#x7EBF;&#x7A0B;&#x6C60;&#x7684;&#x6982;&#x5FF5;&#x3002;</p>
+<p><code>Libuv</code> &#x662F;&#x4E00;&#x4E2A;&#x8DE8;&#x5E73;&#x53F0;&#x7684;&#x5F02;&#x6B65;IO&#x5E93;&#xFF0C;&#x4E13;&#x4E3A; <code>Node</code> &#x63D0;&#x4F9B;&#x4E86;&#x591A;&#x5E73;&#x53F0;&#x4E0B;&#x7684;&#x5F02;&#x6B65;IO&#x652F;&#x6301;&#xFF0C;&#x672C;&#x8EAB;&#x7531; <code>C/C++</code> &#x5B9E;&#x73B0;&#xFF0C;<code>Node</code> &#x7684;&#x975E;&#x963B;&#x585E;IO&#x4EE5;&#x53CA;&#x4E8B;&#x4EF6;&#x5FAA;&#x73AF;&#x90FD;&#x662F;&#x7531;&#x5B83;&#x6765;&#x5B8C;&#x6210;&#x5E76;&#x5B9E;&#x73B0;&#x7684;&#x3002;</p>
+<h2 id="&#x5E76;&#x884C;&#x548C;&#x5E76;&#x53D1;">&#x5E76;&#x884C;&#x548C;&#x5E76;&#x53D1;</h2>
+<p>&#x5E76;&#x884C;&#x548C;&#x5E76;&#x53D1;&#x662F;&#x4E24;&#x4E2A;&#x5B8C;&#x5168;&#x4E0D;&#x540C;&#x7684;&#x6982;&#x5FF5;&#x3002;</p>
+<p>&#x6253;&#x4E2A;&#x6BD4;&#x65B9;&#xFF0C;&#x5E76;&#x53D1;&#x597D;&#x6BD4;&#x4E24;&#x961F;&#x4EBA;&#x53D6;&#x7968;&#xFF0C;&#x4F46;&#x53EA;&#x6709;&#x4E00;&#x4E2A;&#x53D6;&#x7968;&#x673A;&#xFF0C;A&#x961F;&#x7B2C;&#x4E00;&#x4E2A;&#x53D6;&#x5B8C;&#xFF0C;&#x5C31;&#x7531;B&#x961F;&#x7684;&#x7B2C;&#x4E00;&#x4E2A;&#x6765;&#x53D6;&#x3002;&#x800C;&#x5E76;&#x884C;&#x5219;&#x662F;&#x4E24;&#x961F;&#x4EBA;&#x53D6;&#x7968;&#xFF0C;&#x4F46;&#x6709;&#x4E24;&#x4E2A;&#x53D6;&#x7968;&#x673A;&#xFF0C;&#x5404;&#x81EA;&#x961F;&#x7684;&#x4EBA;&#x4F7F;&#x7528;&#x5404;&#x81EA;&#x5BF9;&#x5E94;&#x7684;&#x53D6;&#x7968;&#x673A;&#x3002;</p>
+<p><code>Node</code> &#x901A;&#x8FC7;&#x5F02;&#x6B65;+&#x4E8B;&#x4EF6;&#x9A71;&#x52A8;&#x7684;&#x5355;&#x7EBF;&#x7A0B;&#x7279;&#x6027;&#x6765;&#x5B9E;&#x73B0;&#x9AD8;&#x5E76;&#x53D1;&#xFF0C;&#x5F02;&#x6B65;&#x4F7F;&#x5F97;&#x4EE3;&#x7801;&#x5728;&#x9762;&#x4E34;&#x591A;&#x4E2A;&#x8BF7;&#x6C42;&#x65F6;&#x4E0D;&#x4F1A;&#x53D1;&#x751F;&#x963B;&#x585E;&#xFF0C;&#x4E8B;&#x4EF6;&#x9A71;&#x52A8;&#x63D0;&#x4F9B;&#x4E86;IO&#x8C03;&#x7528;&#x540E;&#x6267;&#x884C;&#x56DE;&#x8C03;&#x51FD;&#x6570;&#x7684;&#x80FD;&#x529B;&#x3002;</p>
+
+                                
+                                </section>
+                            
+    </div>
+    <div class="search-results">
+        <div class="has-results">
+            
+            <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+            <ul class="search-results-list"></ul>
+            
+        </div>
+        <div class="no-results">
+            
+            <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+            
+        </div>
+    </div>
+</div>
+
+                        </div>
+                    </div>
+                
+            </div>
+
+            
+                
+                <a href="Node是什么.html" class="navigation navigation-prev " aria-label="Previous page: Node是什么">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                
+                
+                <a href="事件循环.html" class="navigation navigation-next " aria-label="Next page: 事件循环(Event Loop)">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+                
+            
+        
+    </div>
+
+    <script>
+        var gitbook = gitbook || [];
+        gitbook.push(function() {
+            gitbook.page.hasChanged({"page":{"title":"Node的内部机制","level":"1.2.2","depth":2,"next":{"title":"事件循环(Event Loop)","level":"1.2.3","depth":2,"path":"Chapter1/事件循环.md","ref":"Chapter1/事件循环.md","articles":[]},"previous":{"title":"Node是什么","level":"1.2.1","depth":2,"path":"Chapter1/Node是什么.md","ref":"Chapter1/Node是什么.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Chapter1/Node的内部机制.md","mtime":"2019-03-16T08:50:05.832Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-17T03:39:05.483Z"},"basePath":"..","book":{"language":""}});
+        });
+    </script>
+</div>
+
+        
+    <script src="../gitbook/gitbook.js"></script>
+    <script src="../gitbook/theme.js"></script>
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search-engine.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-search/search.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/lunr.min.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-lunr/search-lunr.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-sharing/buttons.js"></script>
+        
+    
+        
+        <script src="../gitbook/gitbook-plugin-fontsettings/fontsettings.js"></script>
+        
+    
+
+    </body>
+</html>
+
