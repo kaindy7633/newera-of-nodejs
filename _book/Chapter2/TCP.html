@@ -737,6 +737,41 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="tcp&#x670D;&#x52A1;">TCP&#x670D;&#x52A1;</h1>
+<p>&#x76F8;&#x5BF9;&#x4E8E;HTTP&#x670D;&#x52A1;&#xFF0C;TCP&#x7684;&#x51FA;&#x573A;&#x7387;&#x5E76;&#x4E0D;&#x9AD8;&#x3002;</p>
+<p>&#x6211;&#x4EEC;&#x90FD;&#x77E5;&#x9053; <code>Socket</code> &#xFF0C;&#x5B83;&#x662F;&#x5BF9;TCP&#x534F;&#x8BAE;&#x7684;&#x4E00;&#x79CD;&#x5C01;&#x88C5;&#x3002;<code>Socket</code> &#x5E76;&#x4E0D;&#x662F;&#x534F;&#x8BAE;&#xFF0C;&#x800C;&#x662F;&#x4E00;&#x4E2A;&#x7F16;&#x7A0B;&#x63A5;&#x53E3;&#xFF0C;&#x5982;&#x679C;&#x4E00;&#x79CD;&#x7F16;&#x7A0B;&#x8BED;&#x8A00;&#x5B9E;&#x73B0;&#x4E86; <code>Socket</code> &#x63A5;&#x53E3;&#xFF0C;&#x90A3;&#x4E48;&#x5C31;&#x53EF;&#x4EE5;&#x901A;&#x8FC7; <code>Socket</code> &#x63A5;&#x53E3;&#x9884;&#x5B9A;&#x4E49;&#x7684;&#x65B9;&#x6CD5;&#x6765;&#x89E3;&#x6790;&#x4F7F;&#x7528;TCP&#x534F;&#x8BAE;&#x4F20;&#x8F93;&#x7684;&#x6570;&#x636E;&#x6D41;&#x3002;</p>
+<p><code>Node</code> &#x4E2D;&#x6709;&#x4E09;&#x79CD; <code>Socket</code>&#xFF0C;&#x5206;&#x522B;&#x5BF9;&#x5E94;&#x5B9E;&#x73B0;TCP&#x3001;UDP&#x548C;Unix Socket&#x3002;</p>
+<p>Net&#x6A21;&#x5757;&#x548C;HTTP&#x6A21;&#x5757;&#x5F88;&#x76F8;&#x4F3C;&#xFF0C;&#x5305;&#x542B;&#x4E86; <code>Server</code> &#x7C7B;&#x3001;<code>Socket</code> &#x7C7B;&#x4EE5;&#x53CA;&#x4E00;&#x4E9B;&#x9884;&#x5B9A;&#x4E49;&#x65B9;&#x6CD5;&#x3002;&#x4E0B;&#x9762;&#x6211;&#x4EEC;&#x6765;&#x521B;&#x5EFA;&#x4E00;&#x4E2A;TCP Server.</p>
+<pre><code class="lang-js"><span class="hljs-keyword">var</span> net = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;net&apos;</span>);
+<span class="hljs-keyword">var</span> server = net.createServer(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">c</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;client connected&apos;</span>);
+  c.on(<span class="hljs-string">&apos;end&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+    <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;client disconnected&apos;</span>);
+  });
+  c.write(<span class="hljs-string">&apos;hello\r\n&apos;</span>);
+  c.pipe(c);
+});
+server.on(<span class="hljs-string">&apos;error&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">err</span>) </span>{
+  <span class="hljs-keyword">throw</span> err;
+});
+server.listen(<span class="hljs-number">8124</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;server bound&apos;</span>);
+})
+</code></pre>
+<p>&#x4E0B;&#x9762;&#x6211;&#x4EEC;&#x5199;&#x4E00;&#x4E2A;&#x5BA2;&#x6237;&#x7AEF;&#x6765;&#x8FDE;&#x63A5;&#x5B83;&#xFF1A;</p>
+<pre><code class="lang-js"><span class="hljs-keyword">const</span> net = <span class="hljs-built_in">require</span>(<span class="hljs-string">&apos;net&apos;</span>);
+<span class="hljs-keyword">const</span> client = net.connect({ port: <span class="hljs-number">8124</span> }, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-comment">// &apos;connect&apos; listener</span>
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;connected to server!&apos;</span>);
+  client.write(<span class="hljs-string">&apos;world!\r\n&apos;</span>);
+});
+client.on(<span class="hljs-string">&apos;data&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">data</span>) </span>{
+  <span class="hljs-built_in">console</span>.log(data.toString());
+  client.end();
+});
+client.on(<span class="hljs-string">&apos;end&apos;</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>) </span>{
+  <span class="hljs-built_in">console</span>.log(<span class="hljs-string">&apos;disconnected from server&apos;</span>);
+})
+</code></pre>
 
                                 
                                 </section>
@@ -780,7 +815,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"TCP","level":"1.3.5","depth":2,"next":{"title":"安全传输SSL","level":"1.3.6","depth":2,"path":"Chapter2/安全传输SSL.md","ref":"Chapter2/安全传输SSL.md","articles":[]},"previous":{"title":"HTTP","level":"1.3.4","depth":2,"path":"Chapter2/HTTP.md","ref":"Chapter2/HTTP.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Chapter2/TCP.md","mtime":"2019-03-17T14:30:38.961Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-17T14:45:21.064Z"},"basePath":"..","book":{"language":""}});
+            gitbook.page.hasChanged({"page":{"title":"TCP","level":"1.3.5","depth":2,"next":{"title":"安全传输SSL","level":"1.3.6","depth":2,"path":"Chapter2/安全传输SSL.md","ref":"Chapter2/安全传输SSL.md","articles":[]},"previous":{"title":"HTTP","level":"1.3.4","depth":2,"path":"Chapter2/HTTP.md","ref":"Chapter2/HTTP.md","articles":[]},"dir":"ltr"},"config":{"gitbook":"*","theme":"default","variables":{},"plugins":[],"pluginsConfig":{"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"}},"file":{"path":"Chapter2/TCP.md","mtime":"2019-03-18T14:25:34.127Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2019-03-18T14:58:16.467Z"},"basePath":"..","book":{"language":""}});
         });
     </script>
 </div>
